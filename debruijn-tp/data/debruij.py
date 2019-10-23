@@ -43,3 +43,15 @@ def build_graph(dic_kmer) :
     return Grph
 
 
+def get_starting_nodes(graph):
+
+    node_entry = []
+
+    for node in graph.nodes:
+
+        if len(list(graph.predecessors(node))) == 0:
+
+            node_entry.append(node)
+
+    return node_entry
+
