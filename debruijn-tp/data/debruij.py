@@ -74,3 +74,51 @@ def get_sink_nodes(graph):
             node_out.append(node)
 
     return node_out
+
+
+
+def get_contigs(graph, entree, sortie):
+
+    paths = []
+
+    for nd in entree:
+
+        for nd2 in sortie:
+
+            path = list(nx.all_simple_paths(graph, nd, nd2))
+
+            longu = len(path)
+
+            if longu > 0:
+
+                paths.append(path)
+
+    reslt = ()
+
+    for i in range(len(paths)):
+        for ii in range(len(paths[i])):
+
+            contig = str(paths[i][ii][0])
+
+            for j in range(1, len(paths[i][ii])):
+
+                tmp = str(paths[i][ii][j][-1])
+                contig += tmp[-1]
+
+            reslt.append([contig, len(contig)])
+
+    return reslt
+
+
+
+
+def fill(text, width=80):
+    """Split text with a line returnto respect fasta format"""
+    return os.linesep.join(text[i:i+width] for i in range(0, len(text), width))
+
+
+def std(liste):
+    """ a function that takes a list of values and return its stdev"""
+
+    res = statistics.stdev(liste)
+    return res
