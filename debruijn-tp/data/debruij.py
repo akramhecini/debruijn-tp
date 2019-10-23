@@ -1,6 +1,7 @@
 import networkx as nx
 import random
 import statistics
+import argparse
 
 
 def read_fastq(fasta_q):
@@ -121,4 +122,70 @@ def std(liste):
     """ a function that takes a list of values and return its stdev"""
 
     res = statistics.stdev(liste)
+
     return res
+
+def path_average_weight(graph, path):
+
+    sous_graphe = graph.subgraph(path)
+
+    liste_w = []
+
+    for edge in sous_graphe.edges(data=True):
+        liste_w.append(edge[2]['weight'])
+
+    return statistics.mean(liste_w)
+
+
+def remove_paths(graph, liste_path, delete_entry_node, delete_sink_node):
+
+    """ Une fonction qui prend un graphe et une liste de chemin, delete_entry_node pour
+indiquer si les noeuds d’entrée seront supprimés et delete_sink_node pour indiquer si
+les noeuds de sortie seront supprimés et retourne un graphe nettoyé des chemins
+indésirables."""
+
+    graphe_tmp = graph
+
+    for i in range(len(liste_path)):
+
+        graphe_tmp.remove_nodes_from(liste_path[i][1:-1])
+
+        if delete_entry_node == True:
+            graphe_tmp.remove_node(liste_path[i][0]) #supprimer le noeud d entree
+        if delete_sink_node == True:
+            graphe_tmp.remove_node(liste_path[i][-1])#supprimer le noeud de sortie
+
+    return graphe_tmp
+
+
+import argparse
+
+
+
+def main():
+
+    parser = argparse.ArgumentParser(description="Debruij Algorithm BY Akram Hecini M2 bIOINFO")
+
+
+    parser.add_argument("-i", help='Un fichier fastq comme input',
+
+                        dest="fastq", metavar="Fastq_file", required=True)
+
+    parser.add_argument("-k", help="taille des kmer (optionnel - default 21)",
+
+                        type=int, default=21, metavar="Kmer_Size")
+
+    parser.add_argument("-r", help='Le fichier du Genome de reference --OPTIONNEL',
+
+                         metavar="Ref_Genome")
+
+    parser.add_argument("-o", help='Fichier Config', metavar="Config_file")
+
+
+
+    args = parser.parse_args()
+
+
+
+if __name__ == '__main__':
+    main()
