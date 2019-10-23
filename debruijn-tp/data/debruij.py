@@ -1,3 +1,8 @@
+import networkx as nx
+import random
+import statistics
+
+
 def read_fastq(fasta_q):
   with open(fasta_q, 'r') as f:
     for count, line in enumerate(f, start=1):
@@ -28,6 +33,8 @@ def build_kmer_dict(fasta_q,k_mer): # finalement il renvoie ça que pour la dern
 
         return dic
 
+
+
 def build_graph(dic_kmer) :
 
     Grph = nx.DiGraph()
@@ -55,3 +62,15 @@ def get_starting_nodes(graph):
 
     return node_entry
 
+
+def get_sink_nodes(graph):
+
+    node_out = []
+
+    for node in graph.nodes:
+
+        if len(list(graph.successors(node))) == 0:
+
+            node_out.append(node)
+
+    return node_out
