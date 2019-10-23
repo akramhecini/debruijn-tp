@@ -111,6 +111,15 @@ def get_contigs(graph, entree, sortie):
     return reslt
 
 
+def save_contigs(tpl, file):
+
+    f = open(file, 'w+')
+
+    for i in range(len(tpl)):
+        f.write('>contig_' + str(i) + ' longueur : ' 
+        + str(tpl[i][1]) + '\n' + str(fill(tpl[i][0])) + '\n')
+
+    f.close()
 
 
 def fill(text, width=80):
