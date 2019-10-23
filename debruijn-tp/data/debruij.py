@@ -27,3 +27,19 @@ def build_kmer_dict(fasta_q,k_mer): # finalement il renvoie ça que pour la dern
 
 
         return dic
+
+def build_graph(dic_kmer) :
+
+    Grph = nx.DiGraph()
+
+    for kmer, valeur in dic_kmer.items():
+
+        nd1 = kmer[:-1]
+
+        nd2 = kmer[1:]
+
+        Grph.add_edge(nd1 , nd2 , weight = valeur)
+
+    return Grph
+
+
